@@ -1,0 +1,26 @@
+{# templates/register/_confirm.html.twig #}
+{% import "macros/table.html.twig" as table %}
+<div data-controller="form" data-form-url-value="{{ path('register_confirm') }}">
+{{ form_start(form, { attr: { 'data-action': 'submit->form#submit', 'class': 'needs-validation', 'novalidate': 'novalidate' } }) }}
+<div class="container mt-3">
+  <h2>Confirm Your Details</h2>
+
+  {{ table.renderTable('User Details', userData) }}
+
+  {% if addressData is defined and addressData %}
+    {{ table.renderTable('Address Details', addressData) }}
+  {% endif %}
+
+  {% if paymentData is defined and paymentData %}
+    {{ table.renderTable('Payment Details', paymentData) }}
+  {% endif %}
+</div>
+    <div class="d-flex justify-content-between">
+      <div>
+        <button type="button" data-action="click->form#back" data-back-url="{{ path('register_step2') }}" class="btn btn-primary">Back</button>
+      </div>
+      <div>
+        <button type="submit" data-form-target="submit" class="btn btn-primary mt-3">Submit</button>
+      </div>
+    </div>
+{{ form_end(form) }}

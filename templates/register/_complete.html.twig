@@ -1,0 +1,17 @@
+{% include 'components/_flashes.html.twig' %}
+<div class="container mt-3">
+{% for message in app.flashes('success') %}
+  <h2>Registration Complete</h2>
+  <p>Thank you for registering {{ userData.name }} ! Your account has been successfully created.</p>
+  <p>You can now log in to your account using the credentials you provided during registration.</p>
+  <p>If you have any questions or need assistance, please contact our support team.</p>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+  <h2>Oops, there's a problem</h2>
+  <p>Please try again</p>
+{% endfor %}
+<div class="d-flex justify-content-end">
+  <a href="{{ path('register_start') }}" class="btn btn-primary mt-3">Restart</a>
+</div>
+</div>

@@ -1,0 +1,13 @@
+{# templates/register/_step1.html.twig #}
+{% include 'components/_flashes.html.twig' %}
+<div data-controller="form" data-form-url-value="{{ path('register_step1') }}">
+<p class="mb-4">Welcome to the registration page. Please fill out the form below to create your account.</p>
+  {{ form_start(form, { attr: { 'data-action': 'submit->form#submit', 'class': 'needs-validation', 'novalidate': 'novalidate' } }) }}
+    <div class="form-group">
+      {{ form_widget(form) }}
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="submit" data-form-target="submit" class="btn btn-primary mt-3">Next</button>
+    </div>
+  {{ form_end(form) }}
+</div>

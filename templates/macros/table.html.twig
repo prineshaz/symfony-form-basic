@@ -1,0 +1,18 @@
+{# templates/macros/table.html.twig #}
+{% macro renderTable(title, data) %}
+<table class="table table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th colspan="2">{{ title }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for label, value in data %}
+      <tr>
+        <th>{{ label }}</th>
+        <td>{{ value }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endmacro %}
