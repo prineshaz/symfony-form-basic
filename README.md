@@ -22,6 +22,7 @@
 -   Dynamic loading of form fields. This was due to time.
 -   Real-time validation via JS
 -   Obfuscation of sensitive data like card number and ccv.
+-   I would have spent more time centralising classes with dependency injection in constructor (RegisterController).
 
 ## Access To DB
 

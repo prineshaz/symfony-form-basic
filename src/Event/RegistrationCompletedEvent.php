@@ -1,11 +1,12 @@
 <?php
+
 // src/Event/RegistrationCompletedEvent.php
+
 namespace App\Event;
 
-use App\Entity\UserRegistration;
 use App\Entity\Address;
 use App\Entity\PaymentDetails;
-
+use App\Entity\UserRegistration;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class RegistrationCompletedEvent extends Event
@@ -18,8 +19,8 @@ class RegistrationCompletedEvent extends Event
 
     public function __construct(UserRegistration $userData, ?Address $address = null, ?PaymentDetails $paymentDetails = null)
     {
-        $this->userData = $userData;
-        $this->address = $address;
+        $this->userData       = $userData;
+        $this->address        = $address;
         $this->paymentDetails = $paymentDetails;
     }
 
