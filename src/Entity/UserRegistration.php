@@ -44,8 +44,8 @@ class UserRegistration
     #[ORM\Column(length: 15)]
     #[Assert\NotBlank(groups: ["step1"])]
     #[Assert\Regex(
-      pattern: "/^\+?\d{10,15}$/",
-      message: "The phone number must be between 10 and 15 digits and may start with a '+'.",
+      pattern: "/^\+?\d{10,14}$/",
+      message: "The phone number must be between 10 and 14 digits and may start with a '+'.",
       groups: ["step1"]
     )]
     #[Groups(['safe'])]
