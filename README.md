@@ -8,7 +8,7 @@
 4. From same directory as `composer.yml`, run `docker compose exec php composer install`.
 5. From same directory as `composer.yml`, run `docker compose exec php bin/console doctrine:migrations:migrate` (to create db tables)
 6. Open `https://symfony.localhost` in your favorite web browser (you may get warning about certificates, click to proceed).
-7. Run `docker compose down --remove-orphans` to stop the Docker containers.
+7. When you've finished, run `docker compose down --remove-orphans` to stop the Docker containers.
 
 ## Features
 
