@@ -5,9 +5,10 @@
 1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
 2. Run `docker compose build --no-cache` to build fresh images
 3. Run `SERVER_NAME="symfony.localhost" docker compose up -d --wait` to set up and start a fresh Symfony project
-4. From same directory as `compose.yml`, run `docker compose exec php bin/console doctrine:migrations:migrate` (to create db tables)
-5. Open `https://symfony.localhost` in your favorite web browser (you may get warning about certificates, click to proceed).
-6. Run `docker compose down --remove-orphans` to stop the Docker containers.
+4. From same directory as `composer.yml`, run `docker compose exec php composer install`.
+5. From same directory as `composer.yml`, run `docker compose exec php bin/console doctrine:migrations:migrate` (to create db tables)
+6. Open `https://symfony.localhost` in your favorite web browser (you may get warning about certificates, click to proceed).
+7. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
 ## Features
 
