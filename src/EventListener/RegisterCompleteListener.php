@@ -16,7 +16,7 @@ final class RegisterCompleteListener
 
     public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager)
     {
-        $this->logger        = $logger;
+        $this->logger = $logger;
         $this->entityManager = $entityManager;
     }
 
@@ -37,11 +37,13 @@ final class RegisterCompleteListener
         if ($addressData) {
             $userData->addAddress($addressData);
             $addressData->setRegisteredUser($userData);
+            $this->entityManager->persist($addressData);
         }
 
-        if ($paymentData && $userData->getSubscription() == 'premium') {
+        if ($paymentData && 'premium' == $userData->getSubscription()) {
             $userData->addPaymentDetail($paymentData);
             $paymentData->setRegisteredUser($userData);
+            $this->entityManager->persist($paymentData);
         }
 
         try {
@@ -56,7 +58,7 @@ final class RegisterCompleteListener
             $this->logger->error('Error saving registration data: {error}', [
                 'error' => $e->getMessage(),
             ]);
-            throw new \Exception('Could not save registration data: ' . $e->getMessage());
+            throw new \Exception('Could not save registration data: '.$e->getMessage());
         }
     }
 }

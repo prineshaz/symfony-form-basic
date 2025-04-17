@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Enum\Subscription;
 use App\Repository\UserRegistrationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRegistrationRepository::class)]
 #[UniqueEntity(
@@ -26,31 +25,31 @@ class UserRegistration
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(groups: ["step1"])]
+    #[Assert\NotBlank(groups: ['step1'])]
     #[Groups(['safe'])]
     private ?string $name = null;
 
     #[ORM\Column(name: 'email', type: 'string', length: 255, unique: true)]
-    #[Assert\NotBlank(groups: ["step1"])]
-    #[Assert\Email(groups: ["step1"])]
+    #[Assert\NotBlank(groups: ['step1'])]
+    #[Assert\Email(groups: ['step1'])]
     #[Groups(['safe'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(groups: ["step1"])]
+    #[Assert\NotBlank(groups: ['step1'])]
     #[Groups(['safe'])]
     private ?string $subscription = null;
 
     #[ORM\Column(length: 15)]
-    #[Assert\NotBlank(groups: ["step1"])]
+    #[Assert\NotBlank(groups: ['step1'])]
     #[Assert\Regex(
-      pattern: "/^\+?\d{10,14}$/",
-      message: "The phone number must be between 10 and 14 digits and may start with a '+'.",
-      groups: ["step1"]
+        pattern: "/^\+?\d{10,14}$/",
+        message: "The phone number must be between 10 and 14 digits and may start with a '+'.",
+        groups: ['step1']
     )]
     #[Groups(['safe'])]
     private ?string $phone = null;
-    
+
     /**
      * @var Collection<int, Address>
      */

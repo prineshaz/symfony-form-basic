@@ -40,4 +40,13 @@ class UserRegistrationRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findWithAllReferences() {
+      return $this->createQueryBuilder('u')
+              ->leftJoin('u.addresses', 'a')
+              ->addSelect('a')
+              ->leftJoin('u.paymentDetails', 'p')
+              ->addSelect('p')
+              ->getQuery()
+              ->getResult();
+    }
 }

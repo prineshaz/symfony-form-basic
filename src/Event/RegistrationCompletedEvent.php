@@ -19,8 +19,8 @@ class RegistrationCompletedEvent extends Event
 
     public function __construct(UserRegistration $userData, ?Address $address = null, ?PaymentDetails $paymentDetails = null)
     {
-        $this->userData       = $userData;
-        $this->address        = $address;
+        $this->userData = $userData;
+        $this->address = $address;
         $this->paymentDetails = $paymentDetails;
     }
 
