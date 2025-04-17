@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use App\Repository\UserRegistrationRepository;
+use App\Repository\AddressRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RegisterController extends AbstractController
 {
@@ -29,9 +32,10 @@ class RegisterController extends AbstractController
 
     #[Route('/register/start', name: 'register_start')]
     public function start(SessionInterface $session): Response
-    {
+    { 
+        
         $userData = $session->get('user_data', new UserRegistration());
-        $form     = $this->createForm(UserType::class, $userData, [
+        $form = $this->createForm(UserType::class, $userData, [
             'validation_groups' => ['step1'],
         ]);
 
@@ -90,13 +94,13 @@ class RegisterController extends AbstractController
             $userData = $session->get('user_data', new UserRegistration());
 
             // Check if the subscription is "premium"
-            if ($userData->getSubscription() !== 'premium') {
+            if ('premium' !== $userData->getSubscription()) {
                 $emptyForm = $this->createEmptyForm();
 
                 return $this->render('register/_confirm.html.twig', [
-                    'userData'    => $serializer->normalize($userData, null, ['groups' => ['safe']]),
+                    'userData' => $serializer->normalize($userData, null, ['groups' => ['safe']]),
                     'addressData' => $serializer->normalize($addressData, null, ['groups' => ['safe']]),
-                    'form'        => $emptyForm->createView(),
+                    'form' => $emptyForm->createView(),
                 ]);
             }
 
@@ -118,16 +122,16 @@ class RegisterController extends AbstractController
     #[Route('/register/step3', name: 'register_step3')]
     public function step3(Request $request, SessionInterface $session, SerializerInterface $serializer): Response
     {
-        $userData    = $session->get('user_data', new UserRegistration());
+        $userData = $session->get('user_data', new UserRegistration());
         $addressData = $session->get('address_data', new UserRegistration());
         // Check if the subscription is "premium"
-        if ($userData->getSubscription() !== 'premium') {
+        if ('premium' !== $userData->getSubscription()) {
             $emptyForm = $this->createEmptyForm();
 
             return $this->render('register/_confirm.html.twig', [
-                'userData'    => $serializer->normalize($userData, null, ['groups' => ['safe']]),
+                'userData' => $serializer->normalize($userData, null, ['groups' => ['safe']]),
                 'addressData' => $serializer->normalize($addressData, null, ['groups' => ['safe']]),
-                'form'        => $emptyForm->createView(),
+                'form' => $emptyForm->createView(),
             ]);
         }
 
@@ -145,10 +149,10 @@ class RegisterController extends AbstractController
             $emptyForm = $this->createEmptyForm();
 
             return $this->render('register/_confirm.html.twig', [
-                'userData'    => $serializer->normalize($userData, null, ['groups' => ['safe']]),
+                'userData' => $serializer->normalize($userData, null, ['groups' => ['safe']]),
                 'addressData' => $serializer->normalize($addressData, null, ['groups' => ['safe']]),
                 'paymentData' => $serializer->normalize($paymentData, null, ['groups' => ['safe']]),
-                'form'        => $emptyForm->createView(),
+                'form' => $emptyForm->createView(),
             ]);
         }
 
@@ -161,7 +165,7 @@ class RegisterController extends AbstractController
     #[Route('/register/confirm', name: 'register_confirm')]
     public function confirm(Request $request, SessionInterface $session, EventDispatcherInterface $dispatcher, SerializerInterface $serializer): Response
     {
-        $userData    = $session->get('user_data', new UserRegistration());
+        $userData = $session->get('user_data', new UserRegistration());
         $addressData = $session->get('address_data', new Address());
         $paymentData = $session->get('payment_data', new PaymentDetails());
         // As this is a presentation phase, and we want to reuse js, prepare an empty form.
@@ -194,10 +198,10 @@ class RegisterController extends AbstractController
 
         // If the form isn't submitted or valid, return the form view as HTML.
         return $this->render('register/_confirm.html.twig', [
-            'userData'    => $serializer->normalize($userData, null, ['groups' => ['safe']]),
+            'userData' => $serializer->normalize($userData, null, ['groups' => ['safe']]),
             'addressData' => $serializer->normalize($addressData, null, ['groups' => ['safe']]),
             'paymentData' => $serializer->normalize($paymentData, null, ['groups' => ['safe']]),
-            'form'        => $emptyForm->createView(),
+            'form' => $emptyForm->createView(),
         ]);
     }
 
@@ -205,16 +209,27 @@ class RegisterController extends AbstractController
     public function complete(Request $request, SessionInterface $session, SerializerInterface $serializer): Response
     {
         $userData = $session->get('user_data', new UserRegistration());
+        
 
         return $this->render('register/_complete.html.twig', [
             'userData' => $serializer->normalize($userData, null, ['groups' => ['safe']]),
         ]);
     }
 
+    #[Route('/register/users', name: 'register_show')]
+    public function showUserData(UserRegistrationRepository $userReg, AddressRepository $addressRepo) {
+
+      $data = $userReg->findWithAllReferences();
+
+      return $this->render('register/users.html.twig', [
+        'users' => $data,
+      ]);
+    }
+
     private function createEmptyForm(): \Symfony\Component\Form\FormInterface
     {
         return $this->createFormBuilder()
-          ->setMethod('POST')
-          ->getForm();
+            ->setMethod('POST')
+            ->getForm();
     }
 }
